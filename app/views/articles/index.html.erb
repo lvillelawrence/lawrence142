@@ -9,7 +9,7 @@
           <p class="my-2">
             <small>
               <% @news.first.authors.each_with_index do |author, i| %>
-                <a href="<%= url_for author %>" class="text-decoration-none text-reset"><%= author.fullname %><%= author.gradyear.blank? ? "" : " ’#{author.gradyear.to_s[-2..-1]}" %></a><%= (@news.first.authors.count > 2 and i != @news.first.authors.count - 1) ? ", " : "" %><%= (@news.first.authors.count > 1 and i == @news.first.authors.count - 2) ? " and " : "" %>
+                <a href="<%= url_for author %>" class="text-primary text-decoration-underline"><%= author.fullname %><%= author.gradyear.blank? ? "" : " '#{author.gradyear.to_s[-2..-1]}" %></a><%= (@news.first.authors.count > 2 and i != @news.first.authors.count - 1) ? ", " : "" %><%= (@news.first.authors.count > 1 and i == @news.first.authors.count - 2) ? " and " : "" %>
               <% end %>
               | <b><%= @news.first.section %></b>
             </small>
@@ -34,7 +34,7 @@
                 <p class="my-2">
                   <small>
                     <% article.authors.each_with_index do |author, i| %>
-                      <a href="<%= url_for author %>" class="text-decoration-none text-reset"><%= author.fullname %><%= author.gradyear.blank? ? "" : " ’#{author.gradyear.to_s[-2..-1]}" %></a><%= (article.authors.count > 2 and i != article.authors.count - 1) ? ", " : "" %><%= (article.authors.count > 1 and i == article.authors.count - 2) ? " and " : "" %>
+                      <a href="<%= url_for author %>" class="text-primary text-decoration-underline"><%= author.fullname %><%= author.gradyear.blank? ? "" : " '#{author.gradyear.to_s[-2..-1]}" %></a><%= (article.authors.count > 2 and i != article.authors.count - 1) ? ", " : "" %><%= (article.authors.count > 1 and i == article.authors.count - 2) ? " and " : "" %>
                     <% end %>
                     | <b><%= article.section %></b>
                   </small>
@@ -57,7 +57,7 @@
             <p class="my-2">
               <small>
                 <% article.authors.each_with_index do |author, i| %>
-                  <a href="<%= url_for author %>" class="text-decoration-none text-reset"><%= author.fullname %><%= author.gradyear.blank? ? "" : " ’#{author.gradyear.to_s[-2..-1]}" %></a><%= (article.authors.count > 2 and i != article.authors.count - 1) ? ", " : "" %><%= (article.authors.count > 1 and i == article.authors.count - 2) ? " and " : "" %>
+                  <a href="<%= url_for author %>" class="text-primary text-decoration-underline"><%= author.fullname %><%= author.gradyear.blank? ? "" : " '#{author.gradyear.to_s[-2..-1]}" %></a><%= (article.authors.count > 2 and i != article.authors.count - 1) ? ", " : "" %><%= (article.authors.count > 1 and i == article.authors.count - 2) ? " and " : "" %>
                 <% end %>
                 | <b><%= article.section %></b>
               </small>
@@ -87,7 +87,7 @@
                 <p class="my-2">
                   <small>
                     <% article.authors.each_with_index do |author, i| %>
-                      <a href="<%= url_for author %>" class="text-decoration-none text-reset"><%= author.fullname %><%= author.gradyear.blank? ? "" : " ’#{author.gradyear.to_s[-2..-1]}" %></a><%= (article.authors.count > 2 and i != article.authors.count - 1) ? ", " : "" %><%= (article.authors.count > 1 and i == article.authors.count - 2) ? " and " : "" %>
+                      <a href="<%= url_for author %>" class="text-primary text-decoration-underline"><%= author.fullname %><%= author.gradyear.blank? ? "" : " '#{author.gradyear.to_s[-2..-1]}" %></a><%= (article.authors.count > 2 and i != article.authors.count - 1) ? ", " : "" %><%= (article.authors.count > 1 and i == article.authors.count - 2) ? " and " : "" %>
                     <% end %>
                     | <b><%= article.section %></b>
                   </small>
@@ -121,7 +121,7 @@
             <p class="my-2">
               <small>
                 <% @editorial.authors.each_with_index do |author, i| %>
-                  <a href="<%= url_for author %>" class="text-decoration-none text-reset"><%= author.fullname %><%= author.gradyear.blank? ? "" : " ’#{author.gradyear.to_s[-2..-1]}" %><%= (@editorial.authors.count > 2 and i != @editorial.authors.count - 1) ? ", " : "" %><%= (@editorial.authors.count > 1 and i == @editorial.authors.count - 2) ? " and " : "" %></a>
+                  <a href="<%= url_for author %>" class="text-primary text-decoration-underline"><%= author.fullname %><%= author.gradyear.blank? ? "" : " '#{author.gradyear.to_s[-2..-1]}" %><%= (@editorial.authors.count > 2 and i != @editorial.authors.count - 1) ? ", " : "" %><%= (@editorial.authors.count > 1 and i == @editorial.authors.count - 2) ? " and " : "" %></a>
                 <% end %>
               </small>
             </p>
@@ -140,7 +140,7 @@
                 <p class="my-2">
                   <small>
                     <% article.authors.each_with_index do |author, i| %>
-                      <a href="<%= url_for author %>" class="text-decoration-none text-reset"><%= author.fullname %><%= author.gradyear.blank? ? "" : " ’#{author.gradyear.to_s[-2..-1]}" %><%= (article.authors.count > 2 and i != article.authors.count - 1) ? ", " : "" %><%= (article.authors.count > 1 and i == article.authors.count - 2) ? " and " : "" %></a>
+                      <a href="<%= url_for author %>" class="text-primary text-decoration-underline"><%= author.fullname %><%= author.gradyear.blank? ? "" : " '#{author.gradyear.to_s[-2..-1]}" %><%= (article.authors.count > 2 and i != article.authors.count - 1) ? ", " : "" %><%= (article.authors.count > 1 and i == article.authors.count - 2) ? " and " : "" %></a>
                     <% end %>
                   </small>
                 </p>
@@ -162,7 +162,7 @@
                 <p class="my-2">
                   <small>
                     <% article.authors.each_with_index do |author, i| %>
-                      <a href="<%= url_for article %>" class="text-decoration-none text-reset"><%= author.fullname %><%= author.gradyear.blank? ? "" : " ’#{author.gradyear.to_s[-2..-1]}" %><%= (article.authors.count > 2 and i != article.authors.count - 1) ? ", " : "" %><%= (article.authors.count > 1 and i == article.authors.count - 2) ? " and " : "" %></a>
+                      <a href="<%= url_for article %>" class="text-primary text-decoration-underline"><%= author.fullname %><%= author.gradyear.blank? ? "" : " '#{author.gradyear.to_s[-2..-1]}" %><%= (article.authors.count > 2 and i != article.authors.count - 1) ? ", " : "" %><%= (article.authors.count > 1 and i == article.authors.count - 2) ? " and " : "" %></a>
                     <% end %>
                   </small>
                 </p>
@@ -188,7 +188,7 @@
             <p class="my-2">
               <small>
                 <% article.authors.each_with_index do |author, i| %>
-                  <a href="<%= url_for author %>" class="text-decoration-none text-reset"><%= author.fullname %><%= author.gradyear.blank? ? "" : " ’#{author.gradyear.to_s[-2..-1]}" %></a><%= (article.authors.count > 2 and i != article.authors.count - 1) ? ", " : "" %><%= (article.authors.count > 1 and i == article.authors.count - 2) ? " and " : "" %>
+                  <a href="<%= url_for author %>" class="text-primary text-decoration-underline"><%= author.fullname %><%= author.gradyear.blank? ? "" : " '#{author.gradyear.to_s[-2..-1]}" %></a><%= (article.authors.count > 2 and i != article.authors.count - 1) ? ", " : "" %><%= (article.authors.count > 1 and i == article.authors.count - 2) ? " and " : "" %>
                 <% end %>
                 | <b><%= article.section %></b>
               </small>

@@ -9,7 +9,7 @@
         <p class="my-2">
           <small>
             <% article.authors.each_with_index do |author, i| %>
-              <a href="<%= url_for author %>" class="text-decoration-none text-reset"><%= author.fullname %><%= author.gradyear.blank? ? "" : " ’#{author.gradyear.to_s[-2..-1]}" %></a><%= (article.authors.count > 2 and i != article.authors.count - 1) ? ", " : "" %><%= (article.authors.count > 1 and i == article.authors.count - 2) ? " and " : "" %>
+              <a href="<%= url_for author %>" class="text-primary text-decoration-underline"><%= author.fullname %><%= author.gradyear.blank? ? "" : " '#{author.gradyear.to_s[-2..-1]}" %></a><%= (article.authors.count > 2 and i != article.authors.count - 1) ? ", " : "" %><%= (article.authors.count > 1 and i == article.authors.count - 2) ? " and " : "" %>
             <% end %>
           </small>
         </p>
