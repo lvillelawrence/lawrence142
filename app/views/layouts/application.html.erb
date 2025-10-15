@@ -3,6 +3,7 @@
   <head>
     <title>The Lawrence</title>
     <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+    <meta name="robots" content="noindex, nofollow">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -21,6 +22,7 @@
   </head>
 
   <body data-bs-spy="scroll">
+    <%= render "shared/popup" %>
     <% if false %>
       <p class="notice"><%= notice %></p>
       <p class="alert"><%= alert %></p>
