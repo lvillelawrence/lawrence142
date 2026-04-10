@@ -5,15 +5,20 @@
   <% end %>
   in <a href="/sections/<%= @article.section&.downcase %>" class="text-decoration-none text-reset"><i><%= @article.section %></i></a> | <%= @article.published_at_for_display %>
 </p>
-<% if @article.image.attached? %>
+<% if (img_src = article_image_url(@article)) %>
   <figure class="figure w-100">
-    <img class="img-fluid mx-0 px-0 figure-img" src="<%= url_for @article.image %>" />
+    <img class="img-fluid mx-0 px-0 figure-img" src="<%= img_src %>" />
     <% if @article.image_credit.present? %>
       <figcaption class="figure-caption text-end"><small><em><%= @article.image_credit %></em></small></figcaption>
     <% end %>
   </figure>
 <% end %>
+<% begin %>
 <%= @article.body %>
+<% rescue StandardError => e %>
+  <% Rails.logger.error("[articles#show body id=#{@article.id}] #{e.class}: #{e.message}") %>
+  <p class="text-muted">Article content could not be displayed.</p>
+<% end %>
 
 <% if admin_signed_in? %>
   <div class="hstack gap-3">
