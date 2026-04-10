@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_12_220556) do
+ActiveRecord::Schema[7.0].define(version: 2026_04_09_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -69,16 +69,17 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_12_220556) do
     t.index ["reset_password_token"], name: "idx_16849_index_admins_on_reset_password_token", unique: true
   end
 
-  create_table "articles", id: :bigint, default: nil, force: :cascade do |t|
+  create_table "articles", force: :cascade do |t|
     t.text "title"
     t.text "body"
     t.timestamptz "created_at"
     t.timestamptz "updated_at"
     t.text "status"
     t.text "section"
-    t.date "published"
+    t.datetime "published", precision: nil
     t.bigint "author_id"
     t.text "image"
+    t.string "image_credit"
     t.index ["author_id"], name: "idx_16893_index_articles_on_author_id"
   end
 
@@ -96,10 +97,42 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_12_220556) do
     t.bigint "article_id"
   end
 
+  create_table "crossword_settings", force: :cascade do |t|
+    t.text "puzzle_data"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.date "release_date"
+  end
+
+  create_table "internals", force: :cascade do |t|
+    t.string "title"
+    t.text "body"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "issues", force: :cascade do |t|
     t.string "name"
     t.datetime "date", precision: nil
     t.string "pdf"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "netusers", force: :cascade do |t|
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_netusers_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_netusers_on_reset_password_token", unique: true
+  end
+
+  create_table "wordle_settings", force: :cascade do |t|
+    t.string "word"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

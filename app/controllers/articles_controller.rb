@@ -5,7 +5,7 @@ class ArticlesController < ApplicationController
   def index
     def fetch(section, count = 8)
       return Article.where(section: section)
-        .where('published <= ?', DateTime.now)
+        .where("published <= ?", Time.current)
         .order(published: :desc)
         .limit(count) 
     end
@@ -22,18 +22,22 @@ class ArticlesController < ApplicationController
   def section
     @section = (params[:section]).capitalize
     @articles = Article.where(section: @section)
-      .where('published <= ?', DateTime.now)
+      .where("published <= ?", Time.current)
       .order(published: :desc)
       .limit(100)
   end
 
   def show
     @article = Article.find(params[:id])
+    if @article.published > Time.current && !admin_signed_in?
+      redirect_to root_path, alert: "This article is not available yet."
+      return
+    end
     @related = true
   end
 
   def new
-    @article = Article.new
+    @article = Article.new(published: Time.zone.now.change(sec: 0))
   end
 
   def create
@@ -68,6 +72,6 @@ class ArticlesController < ApplicationController
 
   private
     def article_params
-      params.require(:article).permit(:title, :body, :published, :status, :section, :image, author_ids: [])
+      params.require(:article).permit(:title, :body, :published, :status, :section, :image, :image_credit, author_ids: [])
     end
 end

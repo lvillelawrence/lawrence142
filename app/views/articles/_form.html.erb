@@ -30,7 +30,7 @@
           <% Author.all.each do |author| %>
             <tr>
               <th scope="row">
-                <input class="form-check-input" type="checkbox" value="" data-id="<%= author.id %>" id="pseudoSelect" <%= @article.author_ids.include?(author.id) ? "checked='checked'" : "" %>>
+                <input class="form-check-input pseudo-select" type="checkbox" value="" data-id="<%= author.id %>" <%= article.author_ids.include?(author.id) ? "checked='checked'" : "" %>>
               </th>
               <td><%= author.fullname %></td>
             </tr>
@@ -55,6 +55,12 @@
     <% end %>
   </div>
 
+  <div class="form-floating mb-3">
+    <%= form.text_field :image_credit, class: "form-control", placeholder: "..." %>
+    <%= form.label :image_credit, "Photo/Graphic Credit", class: "form-label" %>
+    <small class="text-muted">e.g., "Photo by Jane Doe '25" or "Graphic by John Smith '24"</small>
+  </div>
+
   <div class="mb-3">
     <%= form.label :body, class: "form-label" %>
     <%= form.rich_text_area :body, class: "form-control" %>
@@ -64,18 +70,19 @@
   </div>
 
   <div class="mb-3">
-    <%= form.label :published, class: "form-label" %>
-    <%= form.date_field :published, class: "form-control" %>
+    <%= form.label :published, "Publish date & time", class: "form-label" %>
+    <%= form.datetime_field :published, class: "form-control", step: 60 %>
+    <small class="text-muted d-block mt-1">The article appears on the homepage and in sections after this moment. Times use the site timezone (Eastern).</small>
   </div>
 
   <div class="mb-3">
     <%= form.label :status, class: "form-label" %>
-    <%= form.select :status, ["Public", "Private", "Archived"], selected: "Public", class: "form-select" %>
+    <%= form.select :status, Visible::VALID_STATUSES, {}, class: "form-select" %>
   </div>
 
   <div class="mb-3">
     <%= form.label :section, class: "form-label" %>
-    <%= form.select :section, ["News", "Opinions", "Features", "Arts", "Sports", "Editorials"], selected: "News", class: "form-select" %>
+    <%= form.select :section, Article::VALID_SECTIONS, {}, class: "form-select" %>
   </div>
 
   <%= form.submit %>

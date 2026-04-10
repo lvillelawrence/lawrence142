@@ -11,6 +11,8 @@ module Lawrence
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.0
 
+    config.time_zone = "Eastern Time (US & Canada)"
+
     config.assets.css_compressor = nil
     # Configuration for the application, engines, and railties goes here.
     #

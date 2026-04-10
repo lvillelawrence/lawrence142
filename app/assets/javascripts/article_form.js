@@ -1,9 +1,6 @@
 (() => {
-  let authors = document.querySelector("authors");
-
   document.querySelectorAll("#pseudoInput").forEach((el) => {
     el.addEventListener("keyup", (e) => {
-      console.log("HERE");
       const trs = document.querySelectorAll("#pseudoTable tr:not(.header)")
       const val = e.target.value;
       const regex = new RegExp(val, "i");
@@ -18,7 +15,7 @@
     });
   });
 
-  document.querySelectorAll("#pseudoSelect").forEach((el) => {
+  document.querySelectorAll(".pseudo-select").forEach((el) => {
     el.addEventListener("change", (e) => {
       const sel = document.querySelector(`#authors option[value="${e.target.dataset.id}"]`);
       if (e.target.checked) {

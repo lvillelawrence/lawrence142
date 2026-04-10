@@ -3,12 +3,17 @@
   <% @article.authors.each_with_index do |author, i| %>
     <a href="<%= url_for author %>" class="text-primary text-decoration-underline"><small><b><%= author.fullname %><%= author.gradyear.blank? ? "" : " '#{author.gradyear.to_s[-2..-1]}" %></b><%= author.position.length > 0 ? " (#{author.position})" : "" %><%= (@article.authors.count > 2 and i != @article.authors.count - 1) ? ", " : "" %><%= (@article.authors.count > 1 and i == @article.authors.count - 2) ? " and " : "" %></small></a>
   <% end %>
-  in <a href="/sections/<%= @article.section.downcase %>" class="text-decoration-none text-reset"><i><%= @article.section %></i></a> | <%= @article.published.strftime("%B %-d, %Y") %>
+  in <a href="/sections/<%= @article.section.downcase %>" class="text-decoration-none text-reset"><i><%= @article.section %></i></a> | <%= @article.published.in_time_zone.strftime("%B %-d, %Y %-l:%M %p %Z") %>
 </p>
 <% unless @article.image.blank? %>
-  <img class="img-fluid mx-0 px-0 pb-1" src="<%= url_for @article.image %>" />
+  <figure class="figure w-100">
+    <img class="img-fluid mx-0 px-0 figure-img" src="<%= url_for @article.image %>" />
+    <% if @article.image_credit.present? %>
+      <figcaption class="figure-caption text-end"><small><em><%= @article.image_credit %></em></small></figcaption>
+    <% end %>
+  </figure>
 <% end %>
-<p><%= @article.body %></p>
+<%= @article.body %>
 
 <% if admin_signed_in? %>
   <div class="hstack gap-3">
