@@ -29,7 +29,7 @@ class ArticlesController < ApplicationController
 
   def show
     @article = Article.includes(:authors, :rich_text_body, image_attachment: :blob).find(params[:id])
-    if @article.published > Time.current && !admin_signed_in?
+    if @article.published.present? && @article.published > Time.current && !admin_signed_in?
       redirect_to root_path, alert: "This article is not available yet."
       return
     end
