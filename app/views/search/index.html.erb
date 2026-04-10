@@ -54,7 +54,7 @@
       <% @authors.each do |author| %>
         <div class="col-12 col-md-6 pb-1">
           <a href="<%= url_for author %>" class="text-decoration-none text-reset">
-            <b><%= author.fullname %><%= author.gradyear.blank? ? "" : " ’#{author.gradyear.to_s[-2..-1]}" %></b><%= author.position.length > 0 ? " (#{author.position})" : "" %>
+            <b><%= author.fullname %><%= author.gradyear.blank? ? "" : " ’#{author.gradyear.to_s[-2..-1]}" %></b><%= author.position.present? ? " (#{author.position})" : "" %>
             <p class="mt-0"><%= author.articles.length %> article<%= author.articles.length == 1 ? "" : "s" %></p>
           </a>
         </div>
