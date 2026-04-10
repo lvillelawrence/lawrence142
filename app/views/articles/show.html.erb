@@ -5,13 +5,17 @@
   <% end %>
   in <a href="/sections/<%= @article.section&.downcase %>" class="text-decoration-none text-reset"><i><%= @article.section %></i></a> | <%= @article.published_at_for_display %>
 </p>
-<% if (img_src = article_image_url(@article)) %>
+<% img_src = article_hero_image_url(@article) %>
+<% if img_src %>
   <figure class="figure w-100">
     <img class="img-fluid mx-0 px-0 figure-img" src="<%= img_src %>" alt="" />
     <% if @article.image_credit.present? %>
       <figcaption class="figure-caption text-end"><small><em><%= @article.image_credit %></em></small></figcaption>
     <% end %>
   </figure>
+<% elsif @article.image_credit.present? %>
+  <%# Credit was saved but hero uses inline/body image only — still show attribution %>
+  <p class="text-end small text-muted mb-2"><em><%= @article.image_credit %></em></p>
 <% end %>
 <% begin %>
 <%= @article.body %>

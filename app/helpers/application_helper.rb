@@ -1,5 +1,5 @@
 module ApplicationHelper
-  # Returns a URL for the article hero image, or nil if missing or storage is inconsistent.
+  # Active Storage hero only (used where legacy is not needed).
   def article_image_url(article)
     return unless article.image.attached?
 
@@ -9,6 +9,27 @@ module ApplicationHelper
     url_for(article.image)
   rescue StandardError => e
     Rails.logger.warn("[article #{article.id} image] #{e.class}: #{e.message}")
+    nil
+  end
+
+  # Hero for article show: Active Storage first, then legacy `articles.image` string URL (same name as attachment).
+  def article_hero_image_url(article)
+    u = article_image_url(article)
+    return u if u.present?
+
+    legacy_article_image_column_url(article)
+  end
+
+  def legacy_article_image_column_url(article)
+    return nil unless article.class.column_names.include?("image")
+
+    raw = article.class.where(id: article.id).pick(:image)
+    raw = raw.to_s.strip
+    return raw if raw.present? && (raw.start_with?("http://", "https://", "//") || raw.start_with?("/"))
+
+    nil
+  rescue StandardError => e
+    Rails.logger.warn("[article #{article.id} legacy image column] #{e.class}: #{e.message}")
     nil
   end
 
