@@ -7,7 +7,7 @@
 </p>
 <% if (img_src = article_image_url(@article)) %>
   <figure class="figure w-100">
-    <img class="img-fluid mx-0 px-0 figure-img" src="<%= img_src %>" />
+    <img class="img-fluid mx-0 px-0 figure-img" src="<%= img_src %>" alt="" />
     <% if @article.image_credit.present? %>
       <figcaption class="figure-caption text-end"><small><em><%= @article.image_credit %></em></small></figcaption>
     <% end %>
@@ -17,7 +17,7 @@
 <%= @article.body %>
 <% rescue StandardError => e %>
   <% Rails.logger.error("[articles#show body id=#{@article.id}] #{e.class}: #{e.message}") %>
-  <p class="text-muted">Article content could not be displayed.</p>
+  <div class="trix-content"><p class="text-muted">Article text could not be loaded.</p></div>
 <% end %>
 
 <% if admin_signed_in? %>

@@ -1,3 +1,5 @@
+<%# Never let sidebar errors take down the whole page (article body is in the main column). %>
+<% begin %>
 <div class="container">
   <hr />
   <% if @related and !@article.nil? %>
@@ -32,3 +34,6 @@
   <p></p>
   <hr />
 </div>
+<% rescue StandardError => e %>
+  <% Rails.logger.error("[sidebar] #{e.class}: #{e.message}\n#{e.backtrace&.first(30)&.join("\n")}") %>
+<% end %>
