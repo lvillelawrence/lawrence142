@@ -3,7 +3,7 @@
   <% if @related and !@article.nil? %>
   <p class="ps-3"><b>Related Articles</b></p>
     <ul class="list-group list-group-flush">
-      <% Article.where(section: @article.section).where("published <= ?", Time.current).order(:published).reverse_order.take(5).each do |article| %>
+      <% related_articles_for_sidebar.each do |article| %>
         <li class="list-group-item">
           <b><a href="<%= url_for article %>" class="link-dark text-decoration-none"><%= article.title %></a></b>
           <small class="d-block">
@@ -18,7 +18,7 @@
   <% end %>
   <p class="ps-3"><b>Recent Articles</b></p>
   <ul class="list-group list-group-flush">
-    <% Article.where("published <= ?", Time.current).order(:published).reverse_order.take(5).each do |article| %>
+    <% recent_articles_for_sidebar.each do |article| %>
       <li class="list-group-item">
         <b><a href="<%= url_for article %>" class="link-dark text-decoration-none"><%= article.title %></a></b>
         <small class="d-block">

@@ -28,9 +28,7 @@ class ArticlesController < ApplicationController
   end
 
   def show
-    # Avoid preloading image_attachment:blob — orphaned attachments (missing blob row)
-    # can raise during load and break the whole response.
-    @article = Article.includes(:authors, :rich_text_body).find(params[:id])
+    @article = Article.includes(:authors).find(params[:id])
     if @article.published.present? && @article.published > Time.current && !admin_signed_in?
       redirect_to root_path, alert: "This article is not available yet."
       return
