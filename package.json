@@ -1,0 +1,23 @@
+{
+  "name": "lawrence142",
+  "private": true,
+  "scripts": {
+    "build": "npm run build:js && npm run build:css",
+    "dev": "concurrently -k -n js,css -c blue,magenta \"npm run watch:js\" \"npm run watch:css\"",
+    "build:js": "esbuild app/javascript/homepage.jsx --bundle --outfile=app/assets/builds/homepage.js --minify --target=es2018 --loader:.js=jsx --loader:.jsx=jsx",
+    "build:css": "tailwindcss -i ./app/assets/stylesheets/homepage.tailwind.css -o ./app/assets/builds/homepage.css --minify",
+    "watch:js": "esbuild app/javascript/homepage.jsx --bundle --outfile=app/assets/builds/homepage.js --sourcemap --target=es2018 --loader:.js=jsx --loader:.jsx=jsx --watch",
+    "watch:css": "tailwindcss -i ./app/assets/stylesheets/homepage.tailwind.css -o ./app/assets/builds/homepage.css --watch"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.20",
+    "concurrently": "^9.1.2",
+    "esbuild": "^0.24.2",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.17"
+  }
+}

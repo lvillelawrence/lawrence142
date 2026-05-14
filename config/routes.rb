@@ -7,6 +7,11 @@ Rails.application.routes.draw do
   get "articles/list", to: "articles#list"
   get 'search', to: "search#index"
   get "issues/latest", to: "issues#latest"
+  get 'crossword', to: "crossword#show"
+  get 'crossword/edit', to: "crossword#edit", as: :edit_crossword
+  get 'crossword/edit/:id', to: "crossword#edit", as: :edit_crossword_item
+  patch 'crossword', to: "crossword#update"
+  delete 'crossword/:id', to: "crossword#destroy", as: :destroy_crossword
   resources :articles
   resources :authors
   resources :issues

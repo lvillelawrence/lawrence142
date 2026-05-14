@@ -1,0 +1,2 @@
+class WordleSetting < ApplicationRecord
+end

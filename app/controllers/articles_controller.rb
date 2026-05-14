@@ -1,22 +1,17 @@
 class ArticlesController < ApplicationController
+  include HomepagePayload
 
   before_action :authenticate_admin!, :except => [:index, :show, :section]
 
   def index
-    def fetch(section, count = 8)
-      return Article.where(section: section)
-        .where("published <= ?", Time.current)
-        .order(published: :desc)
-        .limit(count) 
-    end
     @home = true
-    @news = fetch("News")
-    @opinions = fetch("Opinions")
-    @features = fetch("Features")
-    @arts = fetch("Arts")
-    @sports = fetch("Sports")
-    @editorial = fetch("Editorials", 1)
-      .first
+    @news = fetch_for_homepage("News", 12)
+    @opinions = fetch_for_homepage("Opinions", 12)
+    @features = fetch_for_homepage("Features", 10)
+    @arts = fetch_for_homepage("Arts", 10)
+    @sports = fetch_for_homepage("Sports", 8)
+    @editorial = fetch_for_homepage("Editorials", 1).first
+    @homepage_json = homepage_json_payload.to_json.gsub("</", "<\\/")
   end
 
   def section
@@ -71,6 +66,15 @@ class ArticlesController < ApplicationController
   end
 
   private
+
+    def fetch_for_homepage(section, count = 8)
+      scope = Article.where(section: section)
+        .where("published <= ?", Time.current)
+        .where.not(status: "Archived")
+      scope = scope.where(status: "Public") unless admin_signed_in?
+      scope.order(published: :desc).limit(count)
+    end
+
     def article_params
       params.require(:article).permit(:title, :body, :published, :status, :section, :image, :image_credit, author_ids: [])
     end

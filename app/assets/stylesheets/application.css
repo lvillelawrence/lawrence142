@@ -21,6 +21,13 @@ body {
   font-family: Georgia, 'Times New Roman', Times, serif !important;
 }
 
+a,
+a:hover,
+a:focus,
+a:active {
+  text-decoration: none !important;
+}
+
 div.field_with_errors {
   display: inline;
 }

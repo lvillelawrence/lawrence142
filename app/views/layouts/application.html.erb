@@ -8,6 +8,9 @@
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <% if @home %>
+      <%= stylesheet_link_tag "homepage", "data-turbo-track": "reload" %>
+    <% end %>
 
     <% if Rails.env.production? %>
       <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -24,31 +27,38 @@
   <body data-bs-spy="scroll">
     <%= render "shared/popup" %>
     <% if notice.present? || alert.present? %>
-      <div class="container pt-2">
-        <% if notice.present? %><div class="alert alert-info mb-0" role="alert"><%= notice %></div><% end %>
-        <% if alert.present? %><div class="alert alert-warning mb-0" role="alert"><%= alert %></div><% end %>
-      </div>
+      <% if @home %>
+        <div class="border-bottom bg-white px-3 py-2 text-center small">
+          <% if notice.present? %><div role="status"><%= notice %></div><% end %>
+          <% if alert.present? %><div role="alert"><%= alert %></div><% end %>
+        </div>
+      <% else %>
+        <div class="container pt-2">
+          <% if notice.present? %><div class="alert alert-info mb-0" role="alert"><%= notice %></div><% end %>
+          <% if alert.present? %><div class="alert alert-warning mb-0" role="alert"><%= alert %></div><% end %>
+        </div>
+      <% end %>
     <% end %>
-    <div class="container">
-      <div class="row">
-        <%= render "shared/header" %>
-      </div>
-      <div class="row">
-        <% if not @home %>
+    <% if @home %>
+      <%= yield %>
+    <% else %>
+      <div class="container">
+        <div class="row">
+          <%= render "shared/header" %>
+        </div>
+        <div class="row">
           <div class="col-12 col-lg-8 py-4 px-3 px-md-3 px-lg-5">
             <%= yield %>
           </div>
           <div class="d-none d-lg-inline-block col-md-4">
             <%= render "shared/sidebar" %>
           </div>
-        <% else %>
-          <%= yield %>
-        <% end %>
+        </div>
+        <div class="row">
+          <%= render "shared/footer" %>
+        </div>
       </div>
-      <div class="row">
-        <%= render "shared/footer" %>
-      </div>
-    </div>
+    <% end %>
     <% if admin_signed_in? %>
       <ul class="p-3 fixed-bottom nav justify-content-end bg-light">
         <li class="nav-item">
