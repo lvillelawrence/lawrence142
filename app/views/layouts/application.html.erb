@@ -41,8 +41,10 @@
         <main>
           <div class="site-container py-8 sm:py-10">
             <% show_section_sidebar = @section_page && @section_featured.present? %>
-          <div class="grid gap-10 lg:grid-cols-12 lg:gap-12">
-              <div class="min-w-0 <%= show_section_sidebar ? 'lg:col-span-8' : 'lg:col-span-12' %>">
+            <% show_default_sidebar = !@section_page %>
+            <% show_sidebar = show_section_sidebar || show_default_sidebar %>
+            <div class="grid gap-10 lg:grid-cols-12 lg:gap-12">
+              <div class="min-w-0 <%= show_sidebar ? 'lg:col-span-8' : 'lg:col-span-12' %>">
                 <%= yield %>
               </div>
               <% if show_section_sidebar %>
@@ -51,7 +53,7 @@
                     <%= render "shared/sidebar" %>
                   </div>
                 </div>
-              <% elsif !@section_page %>
+              <% elsif show_default_sidebar %>
                 <div class="hidden min-w-0 lg:col-span-4 lg:block lg:border-l lg:border-line lg:pl-10">
                   <%= render "shared/sidebar" %>
                 </div>

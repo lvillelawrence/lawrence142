@@ -116,6 +116,14 @@ html.dark {
     @apply my-0;
   }
 
+  .article-hero-figure img {
+    @apply h-auto max-w-full;
+  }
+
+  .article-header .figure-caption {
+    @apply mt-2 text-right font-body text-xs text-muted;
+  }
+
   .article-body > .trix-content > *:first-child,
   .article-body > .trix-content > figure:first-child {
     @apply mt-0;

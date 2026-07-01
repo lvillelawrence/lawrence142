@@ -15,8 +15,8 @@
 
     <% img_src = article_hero_image_url(@article) %>
     <% if img_src %>
-      <figure class="article-hero-figure mt-5">
-        <img class="w-full max-w-full" src="<%= img_src %>" alt="" loading="eager" decoding="async" />
+      <figure class="article-hero-figure mt-5 max-w-measure">
+        <img class="h-auto w-full max-w-full" src="<%= img_src %>" alt="" loading="eager" decoding="async" />
         <% if @article.image_credit.present? %>
           <figcaption class="figure-caption mt-2 text-end font-body text-xs text-muted"><em><%= @article.image_credit %></em></figcaption>
         <% end %>
