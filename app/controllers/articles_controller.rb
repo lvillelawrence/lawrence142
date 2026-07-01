@@ -1,25 +1,32 @@
 class ArticlesController < ApplicationController
-  include HomepagePayload
 
   before_action :authenticate_admin!, :except => [:index, :show, :section]
 
   def index
     @home = true
-    @news = fetch_for_homepage("News", 12)
-    @opinions = fetch_for_homepage("Opinions", 12)
-    @features = fetch_for_homepage("Features", 10)
-    @arts = fetch_for_homepage("Arts", 10)
-    @sports = fetch_for_homepage("Sports", 8)
-    @editorial = fetch_for_homepage("Editorials", 1).first
+    @news = fetch_for_homepage("News", 20)
+    @opinions = fetch_for_homepage("Opinions", 20)
+    @features = fetch_for_homepage("Features", 20)
+    @arts = fetch_for_homepage("Arts", 20)
+    @sports = fetch_for_homepage("Sports", 20)
+    @editorials = fetch_for_homepage("Editorials", 10)
+    @editorial = @editorials.first
     @homepage_json = homepage_json_payload.to_json.gsub("</", "<\\/")
   end
 
   def section
-    @section = (params[:section]).capitalize
-    @articles = Article.where(section: @section)
-      .where("published <= ?", Time.current)
+    @section_page = true
+    @section = section_name_from_param(params[:section])
+    all = published_articles_scope
+      .where(section: @section)
       .order(published: :desc)
+      .includes(:authors, image_attachment: :blob)
       .limit(100)
+      .to_a
+
+    @section_featured = pick_section_featured(all)
+    featured_id = @section_featured&.id
+    @articles = featured_id ? all.reject { |article| article.id == featured_id } : all
   end
 
   def show
@@ -67,12 +74,36 @@ class ArticlesController < ApplicationController
 
   private
 
-    def fetch_for_homepage(section, count = 8)
-      scope = Article.where(section: section)
-        .where("published <= ?", Time.current)
+    SECTION_PARAM_NAMES = {
+      "news" => "News",
+      "opinions" => "Opinions",
+      "features" => "Features",
+      "arts" => "Arts",
+      "sports" => "Sports",
+      "editorials" => "Editorials",
+    }.freeze
+
+    def section_name_from_param(param)
+      SECTION_PARAM_NAMES.fetch(param.to_s.downcase) { param.to_s.capitalize }
+    end
+
+    def published_articles_scope
+      scope = Article.where("published IS NOT NULL AND published <= ?", Time.current)
         .where.not(status: "Archived")
-      scope = scope.where(status: "Public") unless admin_signed_in?
-      scope.order(published: :desc).limit(count)
+      admin_signed_in? ? scope : scope.where(status: "Public")
+    end
+
+    def pick_section_featured(articles)
+      return nil if articles.blank?
+
+      articles.find { |article| article.image.attached? } || articles.first
+    end
+
+    def fetch_for_homepage(section, count = 8)
+      scope = published_articles_scope.where(section: section)
+      scope.order(published: :desc)
+        .includes(:authors, image_attachment: :blob)
+        .limit(count)
     end
 
     def article_params

@@ -1,15 +1,13 @@
-<div class="container row">
-  <h1>Issues</h1>
-  <% @issue.each do |issue| %>
-    <div class="col-12 col-md-6 col-lg-4 pb-1">
-      <a href="<%= url_for issue %>" class="text-decoration-none text-reset">
-        <h5 class="mb-0"><%= issue.name %></h5>
-        <p class="my-2">
-          <small>
-            <%= issue.date.strftime("%B %-d, %Y") %>
-          </small>
-        </p>
-      </a>
-    </div>
-  <% end %>
+<div class="space-y-10">
+  <h1 class="font-display text-4xl font-semibold tracking-tight text-ink">Issues</h1>
+  <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+    <% @issue.each do |issue| %>
+      <article class="border-t border-line pt-6">
+        <a href="<%= url_for issue %>" class="editorial-link block">
+          <h2 class="font-display text-lg font-semibold text-ink transition-colors duration-editorial hover:text-accent"><%= issue.name %></h2>
+          <p class="mt-2 font-ui text-xs text-muted"><%= issue.date.strftime("%B %-d, %Y") %></p>
+        </a>
+      </article>
+    <% end %>
+  </div>
 </div>

@@ -1,48 +1,46 @@
-<div class="container">
-  <footer class="row row-cols-1 row-cols-sm-2 row-cols-md-5 py-5 my-5 border-top">
-    <div class="col-lg-3 mb-3 border-right col-md-4 col-sm-6 col-12">
-      <a href="/" class="d-flex align-items-center mb-3 link-dark text-decoration-none">
-        <img height="32px" src="<%= image_path 'lawrence.svg' %>" /> 
-      </a>
-      <p class="text-muted mb-0">&copy; <i>The Lawrence</i> <%= Time.current.year %></p>
-      <p class="text-muted mt-0">Site by Noah Trupin ’23</p>
+<% m = @layout_shell_meta || {} %>
+<footer class="border-t border-line bg-paper">
+  <div class="site-container py-14">
+    <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-12 lg:gap-8">
+      <div class="lg:col-span-4">
+        <a href="/" class="inline-flex items-center gap-2">
+          <% if m[:logo_path].present? %>
+            <img src="<%= m[:logo_path] %>" alt="" class="site-logo h-7 w-auto" />
+          <% end %>
+          <span class="font-display text-lg font-semibold text-ink">The Lawrence</span>
+        </a>
+        <p class="mt-4 font-body text-sm leading-relaxed text-muted">Independent student journalism from the Lawrenceville School since 1881.</p>
+        <p class="mt-4 font-ui text-xs text-muted">© <em>The Lawrence</em> <%= Time.current.year %></p>
+        <p class="mt-2 font-ui text-xs text-muted">Site by Noah Trupin ’23</p>
+      </div>
+
+      <div class="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:col-span-8">
+        <div>
+          <h3 class="font-ui text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-ink">Sections</h3>
+          <ul class="mt-4 space-y-2">
+            <% [["News", "/sections/news"], ["Opinions", "/sections/opinions"], ["Features", "/sections/features"], ["Arts", "/sections/arts"], ["Sports", "/sections/sports"], ["Editorials", "/sections/editorials"]].each do |label, href| %>
+              <li><a href="<%= href %>" class="editorial-link font-body text-sm text-muted"><%= label %></a></li>
+            <% end %>
+            <li><a href="/issues" class="editorial-link font-body text-sm text-muted">Issues</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="font-ui text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-ink">Pages</h3>
+          <ul class="mt-4 space-y-2">
+            <% [["Masthead", "/masthead"], ["About", "/about"], ["Contact", "/contact"], ["Charter", "/charter"], ["Subscribe", "/subscribe"], ["Search", "/search"]].each do |label, href| %>
+              <li><a href="<%= href %>" class="editorial-link font-body text-sm text-muted"><%= label %></a></li>
+            <% end %>
+          </ul>
+        </div>
+        <div class="col-span-2 sm:col-span-1">
+          <h3 class="font-ui text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-ink">Other</h3>
+          <ul class="mt-4 space-y-2">
+            <li><a href="https://digitalarchives.lawrenceville.org/olive/apa/lawrenceville/" class="editorial-link font-body text-sm text-muted">Archives</a></li>
+            <li><a href="/colophon" class="editorial-link font-body text-sm text-muted">Colophon</a></li>
+            <li><a href="/admins/sign_in" class="editorial-link font-body text-sm text-muted">Editor Login</a></li>
+          </ul>
+        </div>
+      </div>
     </div>
-
-    <div class="col-6 mb-2 col-md-2">
-      <b>Sections</b>
-      <ul class="nav flex-column">
-        <% ["News", "Opinions", "Features", "Arts", "Sports", "Editorials"].each do |section| %>
-          <li class="nav-item">
-            <a class="nav-link p-0 text-muted" href="/sections/<%= section.downcase %>"><%= section %></a>
-          </li>
-        <% end %>
-        <li class="nav-item"><a href="/issues" class="nav-link p-0 text-muted">Issues</a></li>
-      </ul>
-    </div>
-
-    <div class="col-6 mb-2 col-md-2">
-      <b>Pages</b>
-      <ul class="nav flex-column">
-        <li class="nav-item"><a href="/masthead" class="nav-link p-0 text-muted">Masthead</a></li>
-        <li class="nav-item"><a href="/about" class="nav-link p-0 text-muted">About</a></li>
-        <li class="nav-item"><a href="/contact" class="nav-link p-0 text-muted">Contact Us</a></li>
-        <li class="nav-item"><a href="/charter" class="nav-link p-0 text-muted">Charter</a></li>
-        <li class="nav-item"><a href="/subscribe" class="nav-link p-0 text-muted">Subscribe</a></li>
-        <li class="nav-item"><a href="/search" class="nav-link p-0 text-muted">Search</a></li>
-      </ul>
-    </div>
-
-    <div class="col-6 mb-2 col-md-2">
-      <b>Other</b>
-      <ul class="nav flex-column">
-        <li class="nav-item"><a href="https://digitalarchives.lawrenceville.org/olive/apa/lawrenceville/" class="nav-link p-0 text-muted">Archives</a></li>
-        <li class="nav-item"><a href="/colophon" class="nav-link p-0 text-muted">Colophon</a></li>
-        <li class="nav-item"><a href="/admins/sign_in" class="nav-link p-0 text-muted">Editor Login</a></li>
-      </ul>
-    </div>
-
-    <div class="col-md-2 mb-2"></div>
-
-    <div class="col-md-2 mb-2"></div>
-  </footer>
-</div>
+  </div>
+</footer>

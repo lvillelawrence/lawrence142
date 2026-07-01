@@ -12,11 +12,39 @@ function readPayload() {
   }
 }
 
-const mount = document.getElementById("lawrence-home-mount");
-if (mount) {
-  const shell = document.createElement("div");
-  shell.id = "lawrence-home-root";
-  mount.appendChild(shell);
-  const root = createRoot(shell);
-  root.render(<HomePage data={readPayload()} />);
+let homeRoot = null;
+
+function mountHomepage() {
+  const mount = document.getElementById("lawrence-home-mount");
+  if (!mount) return;
+
+  const payload = readPayload();
+  let shell = document.getElementById("lawrence-home-root");
+  if (!shell) {
+    shell = document.createElement("div");
+    shell.id = "lawrence-home-root";
+    shell.className = "min-h-screen";
+    mount.appendChild(shell);
+  }
+
+  // Turbo cache can restore the shell DOM while JS state was cleared on unmount.
+  if (!homeRoot) {
+    homeRoot = createRoot(shell);
+  }
+
+  homeRoot.render(<HomePage data={payload} />);
 }
+
+function unmountHomepage() {
+  if (homeRoot) {
+    homeRoot.unmount();
+    homeRoot = null;
+  }
+  document.getElementById("lawrence-home-root")?.remove();
+}
+
+document.addEventListener("turbo:load", mountHomepage);
+document.addEventListener("turbo:before-cache", unmountHomepage);
+
+if (document.readyState !== "loading") mountHomepage();
+else document.addEventListener("DOMContentLoaded", mountHomepage);

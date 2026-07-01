@@ -1,0 +1,50 @@
+<script>
+(function () {
+  var KEY = "lawrence-theme";
+
+  function isDark() {
+    return document.documentElement.classList.contains("dark");
+  }
+
+  function syncToggles() {
+    var dark = isDark();
+    document.querySelectorAll("[data-theme-toggle]").forEach(function (btn) {
+      btn.setAttribute("aria-pressed", dark ? "true" : "false");
+      btn.setAttribute("aria-label", dark ? "Switch to light mode" : "Switch to dark mode");
+    });
+  }
+
+  function setTheme(dark) {
+    if (dark) document.documentElement.classList.add("dark");
+    else document.documentElement.classList.remove("dark");
+    try {
+      localStorage.setItem(KEY, dark ? "dark" : "light");
+    } catch (e) {}
+    document.dispatchEvent(new CustomEvent("lawrence-theme-change", { detail: { dark: dark } }));
+    syncToggles();
+  }
+
+  try {
+    var t = localStorage.getItem(KEY);
+    if (t === "dark") document.documentElement.classList.add("dark");
+    else document.documentElement.classList.remove("dark");
+  } catch (e) {}
+
+  if (!window.__lawrenceThemeToggle) {
+    window.__lawrenceThemeToggle = true;
+    document.addEventListener(
+      "click",
+      function (e) {
+        var btn = e.target.closest("[data-theme-toggle]");
+        if (!btn) return;
+        e.preventDefault();
+        setTheme(!isDark());
+      },
+      true
+    );
+    document.addEventListener("turbo:load", syncToggles);
+    document.addEventListener("turbo:render", syncToggles);
+    document.addEventListener("DOMContentLoaded", syncToggles);
+  }
+})();
+</script>

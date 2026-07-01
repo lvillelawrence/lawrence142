@@ -1,21 +1,92 @@
 module ApplicationHelper
-  # Active Storage hero only (used where legacy is not needed).
-  def article_image_url(article)
-    return unless article.image.attached?
+  ARTICLE_IMAGE_PRESETS = {
+    thumb: [224, 168],
+    card: [640, 400],
+    hero: [960, 600],
+    full: [1280, 800],
+  }.freeze
+
+  # Active Storage URL resized for display (homepage cards, sidebar thumbs, etc.).
+  # Uses the pre-processed variant blob directly when ready; otherwise the original.
+  def article_image_variant_url(article, preset: :card)
+    if article.image.attached?
+      ready_url = article_variant_blob_url(article, preset)
+      return ready_url if ready_url.present?
+
+      return article_attached_image_url(article)
+    end
+
+    legacy_article_image_column_url(article)
+  rescue StandardError => e
+    Rails.logger.warn("[article #{article.id} image #{preset}] #{e.class}: #{e.message}")
+    article_attached_image_url(article) if article.image.attached?
+    legacy_article_image_column_url(article)
+  end
+
+  def article_variant_blob_url(article, preset)
+    return nil unless article.image.attached?
+    return nil unless image_variants_available?
 
     blob = article.image.blob
-    return if blob.nil?
+    return nil if blob.nil?
 
-    url_for(article.image)
+    digest = article_image_variant(article, preset).variation.digest
+    record = ActiveStorage::VariantRecord.find_by(blob_id: blob.id, variation_digest: digest)
+    return nil unless record&.image&.attached?
+
+    url_for(record.image)
   rescue StandardError => e
-    Rails.logger.warn("[article #{article.id} image] #{e.class}: #{e.message}")
+    Rails.logger.warn("[article #{article.id} variant blob #{preset}] #{e.class}: #{e.message}")
     nil
   end
 
-  # Hero for article show: Active Storage first, then legacy `articles.image` string URL (same name as attachment).
-  def article_hero_image_url(article)
-    u = article_image_url(article)
-    return u if u.present?
+  def article_image_variant(article, preset)
+    width, height = ARTICLE_IMAGE_PRESETS.fetch(preset, ARTICLE_IMAGE_PRESETS[:card])
+    article.image.variant(
+      resize_to_limit: [width, height],
+      saver: { quality: 82, strip: true },
+    )
+  end
+
+  def image_variants_available?
+    return @image_variants_available if defined?(@image_variants_available)
+
+    processor = Rails.application.config.active_storage.variant_processor
+    @image_variants_available =
+      case processor
+      when :vips
+        require "vips"
+        true
+      when :mini_magick
+        require "mini_magick"
+        true
+      else
+        false
+      end
+  rescue LoadError
+    @image_variants_available = false
+  end
+
+  def article_attached_image_url(article)
+    url_for(article.image)
+  rescue StandardError => e
+    Rails.logger.warn("[article #{article.id} attached image] #{e.class}: #{e.message}")
+    legacy_article_image_column_url(article)
+  end
+
+  # Active Storage hero only (used where legacy is not needed).
+  def article_image_url(article)
+    article_image_variant_url(article, preset: :card)
+  end
+
+  # Hero for article show: prefer direct blob URL for reliability.
+  def article_hero_image_url(article, preset: :full)
+    if article.image.attached?
+      variant_url = article_variant_blob_url(article, preset)
+      return variant_url if variant_url.present?
+
+      return article_attached_image_url(article)
+    end
 
     legacy_article_image_column_url(article)
   end
@@ -35,6 +106,15 @@ module ApplicationHelper
 
   # Sidebar used to run Article.where(...) directly in the view; any DB/association error there
   # returned 500 with no useful line in Heroku router logs. Load here with rescue + logging.
+  def article_excerpt(article, words: 30)
+    text = article.body.to_plain_text.to_s.split(/\s+/)
+    return "" if text.empty?
+
+    "#{text.first(words).join(' ')}…"
+  rescue StandardError
+    ""
+  end
+
   def related_articles_for_sidebar
     return [] unless @related && @article.present?
 
@@ -43,7 +123,7 @@ module ApplicationHelper
       .where("published IS NOT NULL AND published <= ?", Time.current)
       .order(published: :desc)
       .limit(5)
-      .includes(:authors)
+      .includes(:authors, image_attachment: :blob)
       .to_a
   rescue StandardError => e
     Rails.logger.error("[sidebar related] #{e.class}: #{e.message}\n#{e.backtrace&.first(25)&.join("\n")}")
@@ -54,10 +134,11 @@ module ApplicationHelper
     Article.where("published IS NOT NULL AND published <= ?", Time.current)
       .order(published: :desc)
       .limit(5)
-      .includes(:authors)
+      .includes(:authors, image_attachment: :blob)
       .to_a
   rescue StandardError => e
     Rails.logger.error("[sidebar recent] #{e.class}: #{e.message}\n#{e.backtrace&.first(25)&.join("\n")}")
     []
   end
+
 end

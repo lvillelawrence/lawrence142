@@ -1,8 +1,10 @@
-<h1>Authors</h1>
-<ul>
-  <% @authors.each do |author| %>
-    <li>
-      <%= link_to author.firstname + " " + author.lastname, author %>
-    </li>
-  <% end %>
-</ul>
+<div class="space-y-6">
+  <h1 class="font-display text-4xl font-semibold tracking-tight text-ink">Authors</h1>
+  <ul class="divide-y divide-line border-t border-line font-body text-ink">
+    <% @authors.each do |author| %>
+      <li class="py-3">
+        <%= link_to "#{author.firstname} #{author.lastname}", author, class: "editorial-link text-accent transition-colors duration-editorial hover:text-accentMuted" %>
+      </li>
+    <% end %>
+  </ul>
+</div>

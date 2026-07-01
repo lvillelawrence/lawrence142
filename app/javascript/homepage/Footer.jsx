@@ -29,14 +29,14 @@ export function Footer({ meta }) {
 
   return (
     <footer className="border-t border-line bg-paper">
-      <div className="mx-auto max-w-content px-4 py-14 sm:px-6 lg:px-8">
+      <div className="site-container py-14">
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-12 lg:gap-8">
           <div className="lg:col-span-4">
             <a href="/" className="inline-flex items-center gap-2">
               {meta?.logoPath ? (
-                <img src={meta.logoPath} alt="" className="h-7 w-auto" />
+                <img src={meta.logoPath} alt="" className="site-logo h-7 w-auto" />
               ) : null}
-              <span className="font-display text-lg font-semibold">The Lawrence</span>
+              <span className="font-display text-lg font-semibold italic tracking-tight">The Lawrence</span>
             </a>
             <p className="mt-4 font-body text-sm leading-relaxed text-muted">
               Independent student journalism from the Lawrenceville School since 1881.

@@ -1,39 +1,68 @@
 <%# Never let sidebar errors take down the whole page (article body is in the main column). %>
 <% begin %>
-<div class="container">
-  <hr />
-  <% if @related and !@article.nil? %>
-  <p class="ps-3"><b>Related Articles</b></p>
-    <ul class="list-group list-group-flush">
-      <% related_articles_for_sidebar.each do |article| %>
-        <li class="list-group-item">
-          <b><a href="<%= url_for article %>" class="link-dark text-decoration-none"><%= article.title %></a></b>
-          <small class="d-block">
-            <% article.authors.each_with_index do |author, i| %>
-              <a href="<%= url_for author %>" class="text-decoration-none text-reset"><%= author.fullname %><%= author.gradyear.blank? ? "" : " ’#{author.gradyear.to_s[-2..-1]}" %><%= (article.authors.count > 2 and i != article.authors.count - 1) ? ", " : "" %><%= (article.authors.count > 1 and i == article.authors.count - 2) ? " and " : "" %></a>
+  <aside class="font-body text-sm text-ink">
+    <% if @section_page %>
+      <%= render "shared/section_sidebar" %>
+    <% else %>
+      <% if @related && !@article.nil? %>
+        <div class="border-t border-line pt-8 first:border-t-0 first:pt-0 lg:first:border-t-0">
+          <h2 class="lawrence-list-title">Related Articles</h2>
+          <ul class="mt-4 space-y-0 divide-y divide-line">
+            <% related_articles_for_sidebar.each do |article| %>
+              <% thumb = article_hero_image_url(article, preset: :thumb) %>
+              <li class="lawrence-card-link py-4 first:pt-0">
+                <div class="flex gap-3">
+                  <a href="<%= url_for article %>" class="editorial-link shrink-0">
+                    <div class="h-14 w-20 overflow-hidden rounded border border-line bg-line/20">
+                      <% if thumb.present? %>
+                        <img src="<%= thumb %>" alt="" class="h-full w-full object-cover" loading="lazy" />
+                      <% end %>
+                    </div>
+                  </a>
+                  <div class="min-w-0 flex-1">
+                    <a href="<%= url_for article %>" class="editorial-link font-display text-base font-semibold leading-snug text-ink hover:text-accent"><%= article.title %></a>
+                    <p class="mt-2 font-ui text-xs text-muted">
+                      <% article.authors.each_with_index do |author, i| %>
+                        <a href="<%= url_for author %>" class="editorial-link text-muted hover:text-ink"><%= author.fullname %><%= author.gradyear.blank? ? "" : " ’#{author.gradyear.to_s[-2..]}" %></a><%= (article.authors.count > 2 && i != article.authors.count - 1) ? ", " : "" %><%= (article.authors.count > 1 && i == article.authors.count - 2) ? " and " : "" %>
+                      <% end %>
+                    </p>
+                  </div>
+                </div>
+              </li>
             <% end %>
-          </small>
-        </li>
+          </ul>
+        </div>
       <% end %>
-    </ul>
-    <hr />
-  <% end %>
-  <p class="ps-3"><b>Recent Articles</b></p>
-  <ul class="list-group list-group-flush">
-    <% recent_articles_for_sidebar.each do |article| %>
-      <li class="list-group-item">
-        <b><a href="<%= url_for article %>" class="link-dark text-decoration-none"><%= article.title %></a></b>
-        <small class="d-block">
-          <% article.authors.each_with_index do |author, i| %>
-            <a href="<%= url_for author %>" class="text-decoration-none text-reset"><%= author.fullname %><%= author.gradyear.blank? ? "" : " ’#{author.gradyear.to_s[-2..-1]}" %><%= (article.authors.count > 2 and i != article.authors.count - 1) ? ", " : "" %><%= (article.authors.count > 1 and i == article.authors.count - 2) ? " and " : "" %></a>
+
+      <div class="border-t border-line pt-8">
+        <h2 class="lawrence-list-title">Recent Articles</h2>
+        <ul class="mt-4 space-y-0 divide-y divide-line">
+          <% recent_articles_for_sidebar.each do |article| %>
+            <% thumb = article_hero_image_url(article, preset: :thumb) %>
+            <li class="lawrence-card-link py-4 first:pt-0">
+              <div class="flex gap-3">
+                <a href="<%= url_for article %>" class="editorial-link shrink-0">
+                  <div class="h-14 w-20 overflow-hidden rounded border border-line bg-line/20">
+                    <% if thumb.present? %>
+                      <img src="<%= thumb %>" alt="" class="h-full w-full object-cover" loading="lazy" />
+                    <% end %>
+                  </div>
+                </a>
+                <div class="min-w-0 flex-1">
+                  <a href="<%= url_for article %>" class="editorial-link font-display text-base font-semibold leading-snug text-ink hover:text-accent"><%= article.title %></a>
+                  <p class="mt-2 font-ui text-xs text-muted">
+                    <% article.authors.each_with_index do |author, i| %>
+                      <a href="<%= url_for author %>" class="editorial-link text-muted hover:text-ink"><%= author.fullname %><%= author.gradyear.blank? ? "" : " ’#{author.gradyear.to_s[-2..]}" %></a><%= (article.authors.count > 2 && i != article.authors.count - 1) ? ", " : "" %><%= (article.authors.count > 1 && i == article.authors.count - 2) ? " and " : "" %>
+                    <% end %>
+                  </p>
+                </div>
+              </div>
+            </li>
           <% end %>
-        </small>
-      </li>
+        </ul>
+      </div>
     <% end %>
-  </ul>
-  <p></p>
-  <hr />
-</div>
+  </aside>
 <% rescue StandardError => e %>
   <% Rails.logger.error("[sidebar] #{e.class}: #{e.message}\n#{e.backtrace&.first(30)&.join("\n")}") %>
 <% end %>

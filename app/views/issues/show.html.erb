@@ -1,18 +1,20 @@
-<h1><%= @issue.name %></h1>
-<p class="mb-3">
-  <%= @issue.date.strftime("%B %-d, %Y") %>
-  | <a href="<%= url_for @issue.pdf %>" download="<%= url_for @issue.name %>">Download PDF</a>
-</p>
-<object id="pdf" class="w-100" data="<%= url_for @issue.pdf %>#toolbar=0&navpanes=0&scrollbar=0&statusbar=0&messages=0&scrollbar=0" type="application/pdf">
-  <div>No PDF viewer available</div>
-</object>
+<div class="space-y-6">
+  <header>
+    <h1 class="font-display text-4xl font-semibold tracking-tight text-ink"><%= @issue.name %></h1>
+    <p class="mt-2 font-ui text-sm text-muted">
+      <%= @issue.date.strftime("%B %-d, %Y") %>
+      <span class="text-line"> | </span>
+      <a href="<%= url_for @issue.pdf %>" class="editorial-link font-medium text-accent hover:text-accentMuted" download="<%= @issue.name %>">Download PDF</a>
+    </p>
+  </header>
+  <object id="pdf" class="min-h-[70vh] w-full rounded border border-line" data="<%= url_for @issue.pdf %>#toolbar=0&navpanes=0&scrollbar=0&statusbar=0&messages=0&scrollbar=0" type="application/pdf">
+    <div class="rounded border border-line bg-paper p-6 font-body text-muted">No PDF viewer available</div>
+  </object>
+</div>
 <%= javascript_include_tag "issue_show" %>
 <% if admin_signed_in? %>
-  <div class="hstack gap-3">
-    <%= link_to "Edit", edit_issue_path(@issue) %>
-    <%= button_to "Destroy", issue_path(@issue), data: {
-                      turbo_method: :delete,
-                      turbo_confirm: "Are you sure?"
-                    }, :method => :delete, class: "btn btn-link" %>
+  <div class="mt-10 flex flex-wrap gap-4 border-t border-line pt-6 font-ui text-sm">
+    <%= link_to "Edit", edit_issue_path(@issue), class: "text-accent hover:text-accentMuted" %>
+    <%= button_to "Destroy", issue_path(@issue), method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "cursor-pointer border-0 bg-transparent p-0 font-ui text-sm text-accentMuted underline decoration-line hover:text-accent" %>
   </div>
 <% end %>

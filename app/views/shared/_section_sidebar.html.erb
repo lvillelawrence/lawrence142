@@ -1,0 +1,26 @@
+<% if @section_featured %>
+  <div class="section-sidebar lg:sticky lg:top-24">
+    <article class="section-sidebar__featured">
+      <h2 class="lawrence-list-title">Featured in <%= @section %></h2>
+      <a href="<%= url_for @section_featured %>" class="section-sidebar__featured-link editorial-link mt-4 block">
+        <% featured_image = article_hero_image_url(@section_featured, preset: :card) %>
+        <% if featured_image.present? %>
+          <div class="section-sidebar__featured-image overflow-hidden rounded border border-line/70 bg-paper/40">
+            <img src="<%= featured_image %>" alt="" class="w-full object-cover" loading="lazy" decoding="async" />
+          </div>
+        <% end %>
+        <h3 class="mt-4 font-display text-xl font-semibold leading-snug text-ink transition-colors duration-editorial hover:text-accent">
+          <%= @section_featured.title %>
+        </h3>
+        <p class="mt-2 font-ui text-xs text-muted">
+          <% @section_featured.authors.each_with_index do |author, i| %>
+            <a href="<%= url_for author %>" class="editorial-link text-muted hover:text-ink"><%= author.fullname %><%= author.gradyear.blank? ? "" : " ’#{author.gradyear.to_s[-2..]}" %></a><%= (@section_featured.authors.count > 2 && i != @section_featured.authors.count - 1) ? ", " : "" %><%= (@section_featured.authors.count > 1 && i == @section_featured.authors.count - 2) ? " and " : "" %>
+          <% end %>
+        </p>
+        <p class="mt-3 font-body text-sm leading-relaxed text-muted">
+          <%= article_excerpt(@section_featured, words: 35) %>
+        </p>
+      </a>
+    </article>
+  </div>
+<% end %>

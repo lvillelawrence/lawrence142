@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <%= render "shared/theme_head" %>
     <title>The Lawrence</title>
     <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
     <meta name="robots" content="noindex, nofollow">
@@ -8,9 +9,7 @@
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <% if @home %>
-      <%= stylesheet_link_tag "homepage", "data-turbo-track": "reload" %>
-    <% end %>
+    <%= stylesheet_link_tag "homepage", "data-turbo-track": "reload" %>
 
     <% if Rails.env.production? %>
       <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -27,56 +26,52 @@
   <body data-bs-spy="scroll">
     <%= render "shared/popup" %>
     <% if notice.present? || alert.present? %>
-      <% if @home %>
-        <div class="border-bottom bg-white px-3 py-2 text-center small">
-          <% if notice.present? %><div role="status"><%= notice %></div><% end %>
-          <% if alert.present? %><div role="alert"><%= alert %></div><% end %>
-        </div>
-      <% else %>
-        <div class="container pt-2">
-          <% if notice.present? %><div class="alert alert-info mb-0" role="alert"><%= notice %></div><% end %>
-          <% if alert.present? %><div class="alert alert-warning mb-0" role="alert"><%= alert %></div><% end %>
-        </div>
-      <% end %>
+      <div class="border-b border-line bg-paper px-3 py-2 text-center font-ui text-sm text-ink">
+        <% if notice.present? %><div role="status"><%= notice %></div><% end %>
+        <% if alert.present? %><div role="alert" class="text-accentMuted"><%= alert %></div><% end %>
+      </div>
     <% end %>
     <% if @home %>
-      <%= yield %>
+      <div class="lawrence-app min-h-screen bg-paper text-ink">
+        <%= yield %>
+      </div>
     <% else %>
-      <div class="container">
-        <div class="row">
-          <%= render "shared/header" %>
-        </div>
-        <div class="row">
-          <div class="col-12 col-lg-8 py-4 px-3 px-md-3 px-lg-5">
-            <%= yield %>
+      <div class="lawrence-app bg-paper">
+        <%= render "shared/header" %>
+        <main>
+          <div class="site-container py-8 sm:py-10">
+            <% show_section_sidebar = @section_page && @section_featured.present? %>
+          <div class="grid gap-10 lg:grid-cols-12 lg:gap-12">
+              <div class="min-w-0 <%= show_section_sidebar ? 'lg:col-span-8' : 'lg:col-span-12' %>">
+                <%= yield %>
+              </div>
+              <% if show_section_sidebar %>
+                <div class="hidden min-w-0 lg:col-span-4 lg:block">
+                  <div class="section-sidebar-column">
+                    <%= render "shared/sidebar" %>
+                  </div>
+                </div>
+              <% elsif !@section_page %>
+                <div class="hidden min-w-0 lg:col-span-4 lg:block lg:border-l lg:border-line lg:pl-10">
+                  <%= render "shared/sidebar" %>
+                </div>
+              <% end %>
+            </div>
           </div>
-          <div class="d-none d-lg-inline-block col-md-4">
-            <%= render "shared/sidebar" %>
-          </div>
-        </div>
-        <div class="row">
-          <%= render "shared/footer" %>
-        </div>
+        </main>
+        <%= render "shared/footer" %>
       </div>
     <% end %>
     <% if admin_signed_in? %>
-      <ul class="p-3 fixed-bottom nav justify-content-end bg-light">
-        <li class="nav-item">
-          <%= link_to "New Issue", new_issue_path, class: "nav-link" %>
-        </li>
-        <li class="nav-item">
-          <%= link_to "New Author", new_author_path, class: "nav-link" %>
-        </li>
-        <li class="nav-item">
-          <%= link_to "New Article", new_article_path, class: "nav-link" %>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/crossword/edit">Edit Crossword</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/admins/sign_out">Sign out</a>
-        </li>
-      </ul>
+      <nav class="lawrence-app editor-toolbar" aria-label="Editor tools">
+        <div class="editor-toolbar__inner">
+          <%= link_to "New Issue", new_issue_path, class: "editor-toolbar__link" %>
+          <%= link_to "New Author", new_author_path, class: "editor-toolbar__link" %>
+          <%= link_to "New Article", new_article_path, class: "editor-toolbar__link" %>
+          <a class="editor-toolbar__link" href="/crossword/edit">Edit Crossword</a>
+          <a class="editor-toolbar__link editor-toolbar__link--muted" href="/admins/sign_out">Sign out</a>
+        </div>
+      </nav>
     <% end %>
 
     <% if Rails.env.production? %>

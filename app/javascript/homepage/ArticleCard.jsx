@@ -17,23 +17,37 @@ function Byline({ authors }) {
   );
 }
 
+function ArticleThumb({ src }) {
+  const box = "h-16 w-24 shrink-0 sm:h-[4.5rem] sm:w-28";
+  if (!src) {
+    return <div className={`${box} shrink-0 rounded border border-line bg-line/25`} aria-hidden />;
+  }
+  return (
+    <div className={`${box} shrink-0 overflow-hidden rounded border border-line bg-line/15`}>
+      <img src={src} alt="" className="h-full w-full object-cover" loading="lazy" decoding="async" />
+    </div>
+  );
+}
+
 export function ArticleCard({ article, variant = "standard" }) {
   if (!article) return null;
+  const image = article.image;
 
   if (variant === "compact") {
     return (
       <article className="group border-t border-line pt-4">
-        <a href={article.href} className="block">
-          <h3 className="font-display text-lg font-semibold leading-snug text-ink transition-colors duration-editorial group-hover:text-accent">
-            {article.title}
-          </h3>
+        <a href={article.href} className="flex gap-4">
+          <ArticleThumb src={image} />
+          <div className="min-w-0 flex-1">
+            <h3 className="font-display text-lg font-semibold leading-snug text-ink transition-colors duration-editorial group-hover:text-accent">
+              {article.title}
+            </h3>
+            <Byline authors={article.authors} />
+            {article.dek ? (
+              <p className="mt-2 font-body text-sm leading-relaxed text-muted line-clamp-2">{article.dek}</p>
+            ) : null}
+          </div>
         </a>
-        <Byline authors={article.authors} />
-        {article.dek ? (
-          <a href={article.href} className="mt-2 block">
-            <p className="font-body text-sm leading-relaxed text-muted line-clamp-3">{article.dek}</p>
-          </a>
-        ) : null}
       </article>
     );
   }
@@ -42,16 +56,19 @@ export function ArticleCard({ article, variant = "standard" }) {
     return (
       <article className="group">
         <a href={article.href} className="block overflow-hidden">
-          {article.image ? (
-            <div className="overflow-hidden">
+          {image ? (
+            <div className="overflow-hidden rounded border border-line">
               <img
-                src={article.image}
+                src={image}
                 alt=""
-                className="aspect-[16/10] w-full object-cover transition-transform duration-[420ms] ease-out group-hover:scale-[1.02]"
+                className="aspect-[16/10] w-full object-cover"
+                loading="eager"
+                decoding="async"
+                fetchPriority="high"
               />
             </div>
           ) : (
-            <div className="aspect-[16/10] w-full bg-line/40" aria-hidden />
+            <div className="aspect-[16/10] w-full rounded border border-line bg-line/30" aria-hidden />
           )}
         </a>
         <a href={article.href} className="mt-4 block">
@@ -69,19 +86,22 @@ export function ArticleCard({ article, variant = "standard" }) {
     );
   }
 
-  /* standard */
   return (
     <article className="group">
       <a href={article.href} className="block overflow-hidden">
-        {article.image ? (
-          <div className="overflow-hidden">
+        {image ? (
+          <div className="overflow-hidden rounded border border-line">
             <img
-              src={article.image}
+              src={image}
               alt=""
-              className="aspect-[5/3] w-full object-cover transition-transform duration-[420ms] ease-out group-hover:scale-[1.02]"
+              className="aspect-[5/3] w-full object-cover"
+              loading="lazy"
+              decoding="async"
             />
           </div>
-        ) : null}
+        ) : (
+          <div className="aspect-[5/3] w-full rounded border border-line bg-line/25" aria-hidden />
+        )}
       </a>
       <a href={article.href} className="mt-3 block">
         <h3 className="font-display text-xl font-semibold leading-snug text-ink transition-colors duration-editorial group-hover:text-accent md:text-2xl">

@@ -4,9 +4,9 @@
   "scripts": {
     "build": "npm run build:js && npm run build:css",
     "dev": "concurrently -k -n js,css -c blue,magenta \"npm run watch:js\" \"npm run watch:css\"",
-    "build:js": "esbuild app/javascript/homepage.jsx --bundle --outfile=app/assets/builds/homepage.js --minify --target=es2018 --loader:.js=jsx --loader:.jsx=jsx",
+    "build:js": "esbuild app/javascript/homepage.jsx --bundle --outfile=app/assets/builds/homepage.js --minify --target=es2018 --jsx=automatic --loader:.js=jsx --loader:.jsx=jsx",
     "build:css": "tailwindcss -i ./app/assets/stylesheets/homepage.tailwind.css -o ./app/assets/builds/homepage.css --minify",
-    "watch:js": "esbuild app/javascript/homepage.jsx --bundle --outfile=app/assets/builds/homepage.js --sourcemap --target=es2018 --loader:.js=jsx --loader:.jsx=jsx --watch",
+    "watch:js": "esbuild app/javascript/homepage.jsx --bundle --outfile=app/assets/builds/homepage.js --sourcemap --target=es2018 --jsx=automatic --loader:.js=jsx --loader:.jsx=jsx --watch",
     "watch:css": "tailwindcss -i ./app/assets/stylesheets/homepage.tailwind.css -o ./app/assets/builds/homepage.css --watch"
   },
   "dependencies": {

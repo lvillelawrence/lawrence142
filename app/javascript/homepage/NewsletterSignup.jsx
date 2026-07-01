@@ -2,8 +2,8 @@ import React from "react";
 
 export function NewsletterSignup() {
   return (
-    <section className="border-y border-line bg-white">
-      <div className="mx-auto max-w-content px-4 py-12 sm:px-6 lg:px-8">
+    <section className="border-y border-line bg-paper">
+      <div className="site-container py-12">
         <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
           <div className="max-w-measure">
             <h2 className="font-display text-2xl font-semibold text-ink">The Morning Lawrence</h2>
