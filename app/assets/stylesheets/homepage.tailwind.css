@@ -64,6 +64,11 @@ html.dark {
     border-top: 1px solid rgb(var(--color-line));
   }
 
+  .lawrence-app .footer-wordmark {
+    @apply font-display text-lg font-semibold tracking-tight text-ink;
+    font-style: italic;
+  }
+
   .lawrence-prose {
     @apply font-body text-base leading-relaxed text-ink;
   }
