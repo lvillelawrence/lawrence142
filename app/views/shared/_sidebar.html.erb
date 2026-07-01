@@ -7,7 +7,7 @@
       <% if @related && !@article.nil? %>
         <div class="border-t border-line pt-8 first:border-t-0 first:pt-0 lg:first:border-t-0">
           <h2 class="lawrence-list-title">Related Articles</h2>
-          <ul class="mt-4 space-y-0 divide-y divide-line">
+          <ul class="sidebar-article-list mt-4">
             <% related_articles_for_sidebar.each do |article| %>
               <%= render "shared/sidebar_article_item", article: article %>
             <% end %>
@@ -17,7 +17,7 @@
 
       <div class="border-t border-line pt-8">
         <h2 class="lawrence-list-title">Recent Articles</h2>
-        <ul class="mt-4 space-y-0 divide-y divide-line">
+        <ul class="sidebar-article-list mt-4">
           <% recent_articles_for_sidebar.each do |article| %>
             <%= render "shared/sidebar_article_item", article: article %>
           <% end %>

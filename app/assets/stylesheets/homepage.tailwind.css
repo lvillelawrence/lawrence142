@@ -49,6 +49,21 @@ html.dark {
 }
 
 @layer components {
+  .lawrence-app .sidebar-article-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .lawrence-app .sidebar-article-item {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .lawrence-app .sidebar-article-item + .sidebar-article-item {
+    border-top: 1px solid rgb(var(--color-line));
+  }
+
   .lawrence-prose {
     @apply font-body text-base leading-relaxed text-ink;
   }

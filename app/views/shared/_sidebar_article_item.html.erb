@@ -1,5 +1,5 @@
 <% thumb = article_hero_image_url(article, preset: :thumb) %>
-<li class="lawrence-card-link py-4 first:pt-0">
+<li class="sidebar-article-item">
   <div class="flex gap-3">
     <% if thumb.present? %>
       <a href="<%= url_for article %>" class="editorial-link shrink-0">
@@ -9,12 +9,14 @@
       </a>
     <% end %>
     <div class="min-w-0 flex-1">
-      <a href="<%= url_for article %>" class="editorial-link font-display text-base font-semibold leading-snug text-ink hover:text-accent"><%= article.title %></a>
-      <p class="mt-2 font-ui text-xs text-muted">
-        <% article.authors.each_with_index do |author, i| %>
-          <a href="<%= url_for author %>" class="editorial-link text-muted hover:text-ink"><%= author.fullname %><%= author.gradyear.blank? ? "" : " ’#{author.gradyear.to_s[-2..]}" %></a><%= (article.authors.count > 2 && i != article.authors.count - 1) ? ", " : "" %><%= (article.authors.count > 1 && i == article.authors.count - 2) ? " and " : "" %>
-        <% end %>
-      </p>
+      <a href="<%= url_for article %>" class="editorial-link block font-display text-base font-semibold leading-snug text-ink transition-colors duration-editorial hover:text-accent"><%= article.title %></a>
+      <% if article.authors.any? %>
+        <p class="mt-2 font-ui text-xs leading-relaxed text-muted">
+          <% article.authors.each_with_index do |author, i| %>
+            <a href="<%= url_for author %>" class="editorial-link text-muted hover:text-ink"><%= author.fullname %><%= author.gradyear.blank? ? "" : " ’#{author.gradyear.to_s[-2..]}" %></a><%= (article.authors.count > 2 && i != article.authors.count - 1) ? ", " : "" %><%= (article.authors.count > 1 && i == article.authors.count - 2) ? " and " : "" %>
+          <% end %>
+        </p>
+      <% end %>
     </div>
   </div>
 </li>
