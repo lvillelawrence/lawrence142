@@ -65,7 +65,7 @@ module HomepagePayload
   def homepage_sections_below_fold(exclude_ids)
     [
       homepage_section_block("News", "news", @news, exclude_ids),
-      homepage_section_block("Opinion", "opinions", @opinions, exclude_ids),
+      homepage_section_block("Opinions", "opinions", @opinions, exclude_ids),
       homepage_section_block("Features", "features", @features, exclude_ids),
       homepage_section_block("Arts", "arts", @arts, exclude_ids),
       homepage_section_block("Sports", "sports", @sports, exclude_ids),

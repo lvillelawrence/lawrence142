@@ -76,7 +76,7 @@ export function HomePage({ data }) {
                 {c.opinions?.length ? (
                   <>
                     <HorizontalRule />
-                    <SidebarSection title="Opinion" articles={c.opinions} showExcerptOnMobile={false} />
+                    <SidebarSection title="Opinions" articles={c.opinions} showExcerptOnMobile={false} />
                   </>
                 ) : null}
                 {c.sports?.length ? (

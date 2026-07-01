@@ -58,7 +58,7 @@
 
     <nav class="site-header__nav hidden border-t border-line md:block" aria-label="Main">
       <ul class="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 py-2.5">
-        <% nav = [["Masthead", "/masthead", true], ["News", "/sections/news", false], ["Opinion", "/sections/opinions", false], ["Features", "/sections/features", false], ["Arts", "/sections/arts", false], ["Sports", "/sections/sports", false], ["Editorials", "/sections/editorials", false], ["Issues", "/issues", false], ["Search", "/search", false], ["Contact", "/contact", true]] %>
+        <% nav = [["Masthead", "/masthead", true], ["News", "/sections/news", false], ["Opinions", "/sections/opinions", false], ["Features", "/sections/features", false], ["Arts", "/sections/arts", false], ["Sports", "/sections/sports", false], ["Editorials", "/sections/editorials", false], ["Issues", "/issues", false], ["Search", "/search", false], ["Contact", "/contact", true]] %>
         <% nav.each do |label, href, muted| %>
           <li>
             <a href="<%= href %>" class="nav-link editorial-link px-1 py-1 font-ui text-[0.68rem] font-medium uppercase tracking-[0.14em] transition-colors hover:text-accent <%= muted ? 'text-muted' : 'text-ink' %>"><%= label %></a>
