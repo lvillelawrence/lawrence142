@@ -14,10 +14,10 @@ export const PRIMARY_NAV = [
 export const PANEL_SECTIONS = [
   { label: "News", href: "/sections/news", desc: "Campus & community" },
   { label: "Opinion", href: "/sections/opinions", desc: "Voices & debate" },
-  { label: "Features", href: "/sections/features", desc: "Long reads" },
+  { label: "Features", href: "/sections/features", desc: "Profiles & Interviews" },
   { label: "Arts", href: "/sections/arts", desc: "Culture & reviews" },
-  { label: "Sports", href: "/sections/sports", desc: "Big Red athletics" },
-  { label: "Editorials", href: "/sections/editorials", desc: "Board views" },
+  { label: "Sports", href: "/sections/sports", desc: "Big Red athletics and beyond" },
+  { label: "Editorials", href: "/sections/editorials", desc: "146th Board's views" },
 ];
 
 export const PANEL_MORE = [
