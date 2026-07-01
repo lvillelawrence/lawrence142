@@ -13,8 +13,8 @@ export function Navbar({ meta }) {
   return (
     <header className="site-header">
       <div className="site-container">
-        <div className="site-header__bar flex items-end justify-between gap-4">
-          <div className="flex min-w-[5.5rem] items-center gap-2 md:min-w-[7rem]">
+        <div className="site-header__bar flex items-center justify-between gap-2 md:items-end md:gap-4">
+          <div className="flex min-w-0 shrink-0 items-center gap-1.5 md:min-w-[7rem] md:gap-2">
             <button
               type="button"
               className={`site-header__menu-btn${menuOpen ? " is-active" : ""}`}
@@ -52,7 +52,7 @@ export function Navbar({ meta }) {
             </span>
           </a>
 
-          <div className="flex min-w-[5.5rem] items-center justify-end gap-2 md:min-w-[7rem] md:gap-2">
+          <div className="flex min-w-0 shrink-0 items-center justify-end gap-1 md:min-w-[7rem] md:gap-2">
             <HeaderIcons instagramUrl={meta?.instagramUrl} />
             <ThemeToggle />
             <a href="/subscribe" className="hidden font-ui text-[0.65rem] font-semibold uppercase tracking-[0.12em] text-accent transition-colors hover:text-accentMuted md:inline">

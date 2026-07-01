@@ -1,8 +1,8 @@
 <% m = @layout_shell_meta || {} %>
 <header class="site-header" data-controller="header">
   <div class="site-container">
-    <div class="site-header__bar flex items-end justify-between gap-4">
-      <div class="flex min-w-[5.5rem] items-center gap-2 md:min-w-[7rem]">
+    <div class="site-header__bar flex items-center justify-between gap-2 md:items-end md:gap-4">
+      <div class="flex min-w-0 shrink-0 items-center gap-1.5 md:min-w-[7rem] md:gap-2">
         <button
           type="button"
           class="site-header__menu-btn"
@@ -33,7 +33,7 @@
         </span>
       </a>
 
-      <div class="flex min-w-[5.5rem] items-center justify-end gap-2 md:min-w-[7rem] md:gap-2">
+      <div class="flex min-w-0 shrink-0 items-center justify-end gap-1 md:min-w-[7rem] md:gap-2">
         <%= render "shared/header_icons", meta: m %>
         <button type="button" data-theme-toggle class="theme-toggle-btn">
           <span class="theme-toggle-moon inline-flex" aria-hidden="true">

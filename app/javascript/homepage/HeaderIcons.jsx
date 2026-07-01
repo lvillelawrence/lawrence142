@@ -27,13 +27,13 @@ export function HeaderIcons({ instagramUrl }) {
           href={instagramUrl}
           target="_blank"
           rel="noreferrer"
-          className="site-header__icon-btn"
+          className="site-header__icon-btn hidden md:inline-flex"
           aria-label="Instagram"
         >
           <InstagramIcon />
         </a>
       ) : null}
-      <a href="/crossword" className="site-header__icon-btn" aria-label="Crossword">
+      <a href="/crossword" className="site-header__icon-btn hidden md:inline-flex" aria-label="Crossword">
         <GamesIcon />
       </a>
     </>

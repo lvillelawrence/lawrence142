@@ -173,7 +173,7 @@ html.dark {
   }
 
   .theme-toggle-btn {
-    @apply inline-flex h-9 w-9 shrink-0 items-center justify-center rounded border border-line bg-paper text-ink transition-colors duration-editorial hover:bg-line/35;
+    @apply inline-flex h-8 w-8 shrink-0 items-center justify-center rounded border border-line bg-paper text-ink transition-colors duration-editorial hover:bg-line/35 md:h-9 md:w-9;
   }
 
   .site-header__icon-btn {
@@ -214,40 +214,86 @@ html.dark {
   }
 
   .site-header__bar {
-    @apply py-5;
+    @apply py-3;
     transition: padding 0.4s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
+  @media (min-width: 768px) {
+    .site-header__bar {
+      @apply py-5;
+    }
+  }
+
   .site-header--compact .site-header__bar {
-    @apply py-2.5;
+    @apply py-2;
+  }
+
+  @media (min-width: 768px) {
+    .site-header--compact .site-header__bar {
+      @apply py-2.5;
+    }
+  }
+
+  .site-header__brand {
+    @apply min-w-0 max-w-[48%] md:max-w-none;
   }
 
   .site-header__logo-wrap {
     @apply flex items-end justify-center;
-    height: 4.25rem;
+    height: 2.5rem;
     transition: height 0.4s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
+  @media (min-width: 768px) {
+    .site-header__logo-wrap {
+      height: 4.25rem;
+    }
+  }
+
   .site-header--compact .site-header__logo-wrap {
-    height: 2.25rem;
+    height: 1.875rem;
+  }
+
+  @media (min-width: 768px) {
+    .site-header--compact .site-header__logo-wrap {
+      height: 2.25rem;
+    }
   }
 
   .site-header__logo {
     @apply w-auto;
-    height: 4rem;
+    height: 2.25rem;
     transition: height 0.4s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
+  @media (min-width: 768px) {
+    .site-header__logo {
+      height: 4rem;
+    }
+  }
+
   .site-header--compact .site-header__logo {
-    height: 2rem;
+    height: 1.625rem;
+  }
+
+  @media (min-width: 768px) {
+    .site-header--compact .site-header__logo {
+      height: 2rem;
+    }
   }
 
   .site-header__tagline-wrap {
-    display: grid;
+    display: none;
     grid-template-rows: 1fr;
     margin-top: 0.25rem;
     transition: grid-template-rows 0.35s ease, margin-top 0.35s ease, opacity 0.3s ease;
     opacity: 1;
+  }
+
+  @media (min-width: 768px) {
+    .site-header__tagline-wrap {
+      display: grid;
+    }
   }
 
   .site-header--compact .site-header__tagline-wrap {
@@ -256,22 +302,22 @@ html.dark {
     opacity: 0;
   }
 
+  .site-header__menu-btn {
+    @apply inline-flex items-center gap-2 rounded-md border border-line bg-paper px-2 py-1.5 font-ui text-ink transition-all duration-300 hover:border-accent/35 hover:bg-accent/5 md:px-2.5 md:py-2;
+  }
+
   .site-header__tagline {
     @apply overflow-hidden text-center font-ui text-[0.68rem] text-muted;
     min-height: 0;
   }
 
   .site-header__wordmark {
-    @apply text-3xl text-ink;
+    @apply text-2xl text-ink md:text-3xl;
     transition: font-size 0.4s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   .site-header--compact .site-header__wordmark {
-    @apply text-2xl;
-  }
-
-  .site-header__menu-btn {
-    @apply inline-flex items-center gap-2 rounded-md border border-line bg-paper px-2.5 py-2 font-ui text-ink transition-all duration-300 hover:border-accent/35 hover:bg-accent/5;
+    @apply text-xl md:text-2xl;
   }
 
   .site-header__menu-icon {
